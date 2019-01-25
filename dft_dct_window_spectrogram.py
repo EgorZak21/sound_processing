@@ -40,7 +40,7 @@ import keras.backend as K
 
 from scipy.signal import get_window
 
-class DftSpectrogram(Layer):
+class Spectrogram(Layer):
     def __init__(self,
                  length=200,
                  shift=150,
@@ -88,7 +88,7 @@ class DftSpectrogram(Layer):
         If fts=="dct" nfft instead of nfft/2
         number of time point of output spectrogram: n_time = (input.shape[0] - length) / shift + 1
         """
-        super(DftSpectrogram, self).__init__(**kwargs)
+        super(Spectrogram, self).__init__(**kwargs)
         self.fts = fts
         self.trainable = trainable
         self.length = length
@@ -228,7 +228,7 @@ class DftSpectrogram(Layer):
             'normalize_spectrogram': self.normalize_feature,
             'normalize_signal': self.normalize_signal
         }
-        base_config = super(DftSpectrogram, self).get_config()
+        base_config = super(Spectrogram, self).get_config()
         return dict(list(base_config.items()) + list(config.items()))
 
 
@@ -284,7 +284,7 @@ if __name__ == "__main__":
                 model_input = Input(shape=(None, 1))
             else:
                 model_input = Input(shape=input_shape)
-            x = DftSpectrogram(**self.__prop)(model_input)
+            x = Spectrogram(**self.__prop)(model_input)
 
             model = Model(inputs=model_input, outputs=x)
 
